@@ -3,12 +3,26 @@ var app = express();
 const hbs = require('hbs');
 const fs = require('fs');
 
-//in this lesson we will add our project to github as a git repository, creating that will be by run command "git init" on the our project root directory.
-//the repository will be created by adding a hidden directory called ".git" which keeps tracks of our project changes.
-//any commands of git must be run on the root directory of our project"6_AddingVersionControl(Git)". or where ".git" directory exists.
-//"git status" is a command to show us the current branch, the last commit and the folders and files which git will put in the next commit and the others which git will not add to it's next commit.
-//"git add" is a command to add files or directories to next commit process
-//.gitignore is a file contians the names of directories and files which git must not keep track of at all, this file must be in the same location of ".git" directory
+
+//heroku is cloud service to deploy our projects, there is a free tier on heroku, we can use heroku CMD to deploy and manage our apps which makes deployment process very easy.
+//to downlaod heroku CMD go to "toolbelt.heroku.com", downlaod herkou for your OS and install it, go CMD and type "heroku --help" to insatll heroku CMD and start seeing heroku commands
+//"heroku login" coomand to login to my account on heroku. after login now i can interact with heroku sevrer and create Apps and deploy it.
+//"heroku keys:add" command to configure SSH keys which we created in the previous lessons with heroku server. "heroku keys" to show the keys, "heroku keys:delete myemail@gmail.com" to delete those keys form heroku server.
+//"ssh -v git@heroku.com"to setup the the keys, if this message appeared " Authentication succeeded (publickey)." so the things went fine.
+
+//to run our app on heroku we must specify the port that heroku server work on, heroku server takes this port value from environment variable called "PORT"
+//if we run this app on localhost the node.js app will not find PORT environment variable if Port environment variable not exist we will set PORT to 3000.
+//process.env is an object which contains all environment variable on the host deployemnt machine.
+const PORT = process.env.PORT || 3000;
+
+//we must add element called "start" to the object "script" inside file "package.json", the value of "start" element should be string contains our app deploy command "node server.js"
+//because heroku will use this command to run and deploy our app.
+//to test and simulate what will happend on heroku server run this command "npm start".
+
+//git status --> to check the files which has changes
+//git add .  --> to add all files which has changes to next commit
+//git commit -m 'my message' to commit changes  --> to commit our changes to .git folder
+//git push  --> to push our commits to the our online repo
 
 hbs.registerPartials(__dirname + '/views/partials');
 
@@ -56,7 +70,6 @@ app.get('/about', (req, res) => {
 });
 
 
-
-app.listen(3000, () => {
-  console.log('Server started successfully on port 3000!');
+app.listen(PORT, () => {
+  console.log('Server started successfully on port ',PORT);
 });
