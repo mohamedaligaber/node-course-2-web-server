@@ -4,25 +4,16 @@ const hbs = require('hbs');
 const fs = require('fs');
 
 
-//heroku is cloud service to deploy our projects, there is a free tier on heroku, we can use heroku CMD to deploy and manage our apps which makes deployment process very easy.
-//to downlaod heroku CMD go to "toolbelt.heroku.com", downlaod herkou for your OS and install it, go CMD and type "heroku --help" to insatll heroku CMD and start seeing heroku commands
-//"heroku login" coomand to login to my account on heroku. after login now i can interact with heroku sevrer and create Apps and deploy it.
-//"heroku keys:add" command to configure SSH keys which we created in the previous lessons with heroku server. "heroku keys" to show the keys, "heroku keys:delete myemail@gmail.com" to delete those keys form heroku server.
-//"ssh -v git@heroku.com"to setup the the keys, if this message appeared " Authentication succeeded (publickey)." so the things went fine.
+//in this lesson we will go to the entire process from creating new feature to push it to gitHub to push it to heroku
+//first : add new features to our code.
 
-//to run our app on heroku we must specify the port that heroku server work on, heroku server takes this port value from environment variable called "PORT"
-//if we run this app on localhost the node.js app will not find PORT environment variable if Port environment variable not exist we will set PORT to 3000.
-//process.env is an object which contains all environment variable on the host deployemnt machine.
+//second : "git status" --> check the new changes, "git add ." --> add all files have changes to next commit, "git status" --> check those files added,
+//"git commit -m 'add new route called project and it's resources'" -> commit those files to .git folder to be pushed.
+//"git push" --> push our code to gitHub Repo. note: "git push" equals "git push origin" which means push our code to gitHub repository not another repo like heroku
+
+//"third" : "git push heroku" , push our code to heroku repo to build and deploy new changes.
+
 const PORT = process.env.PORT || 3000;
-
-//we must add element called "start" to the object "script" inside file "package.json", the value of "start" element should be string contains our app deploy command "node server.js"
-//because heroku will use this command to run and deploy our app.
-//to test and simulate what will happend on heroku server run this command "npm start".
-
-//git status --> to check the files which has changes
-//git add .  --> to add all files which has changes to next commit
-//git commit -m 'my message' to commit changes  --> to commit our changes to .git folder
-//git push  --> to push our commits to the our online repo
 
 hbs.registerPartials(__dirname + '/views/partials');
 
@@ -68,6 +59,14 @@ app.get('/about', (req, res) => {
     //currentYear: new Date().getFullYear()
   });
 });
+
+
+app.get('/projects', (req, res) => {
+  res.render('projects.hbs', {
+    pageTitle: 'About Page'
+  });
+});
+
 
 
 app.listen(PORT, () => {
